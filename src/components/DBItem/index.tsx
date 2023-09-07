@@ -1,8 +1,9 @@
 import type { FC } from 'react';
+import type { Connection } from '@/types';
 import { Button } from '../ui/button';
 import { PostgresIcon } from './postgres-icon';
 
-export const DBItem: FC = () => {
+export const DBItem: FC<{ item?: Connection }> = () => {
   return (
     <Button
       variant="secondary"

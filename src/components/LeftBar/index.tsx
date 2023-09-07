@@ -3,9 +3,11 @@ import { DBItem } from '../DBItem';
 
 export const LeftBar: FC = () => {
   return (
-    <div className="flex-[0.3] sm:flex-[0.2] pl-6 space-y-2 overflow-auto h-screen">
-      <h4 className="py-6 sticky top-0 bg-background">Saved databases</h4>
-      {Array.from({ length: 36 }, (_, i) => (
+    <div className="flex-0 sm:flex-[0.3] py-6 px-6 space-y-2 overflow-auto h-full">
+      <h4 className="ll-m-20 border-b pb-2 tracking-tight transition-colors first:mt-0 mb-4">
+        Saved databases
+      </h4>
+      {Array.from({ length: 4 }, (_, i) => (
         <DBItem key={i.toString()} />
       ))}
     </div>
