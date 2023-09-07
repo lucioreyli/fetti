@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  output: 'export',
+  transpilePackages: ['@tauri-apps/api'],
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
+
