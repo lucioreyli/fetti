@@ -51,7 +51,20 @@
   * {
     @apply m-0 p-0 border-border;
   }
+
   html, body {
-    @apply h-screen w-full bg-background text-foreground;
+    @apply bg-background text-foreground;
+  }
+
+  label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
+  
+  h3 { 
+    @apply scroll-m-20 text-2xl font-semibold tracking-tight;
+  }
+
+  h4 {
+    @apply scroll-m-20 text-xl font-semibold tracking-tight;
   }
 }

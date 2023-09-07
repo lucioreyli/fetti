@@ -7,7 +7,7 @@
     "distDir": "./out"
   },
   "package": {
-    "productName": "fetti",
+    "productName": "Fetti",
     "version": "0.1.0"
   },
   "tauri": {
