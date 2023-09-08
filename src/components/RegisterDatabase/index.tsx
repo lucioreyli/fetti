@@ -1,13 +1,46 @@
-import type { FC } from 'react';
+'use client';
+import type { FC, FormEventHandler } from 'react';
 import { Button } from '../ui/button';
-import { handleSave, tooManyNights } from './handleSave';
 import { Separator } from '../ui/separator';
+import {
+  SubmitType,
+  handleSaveConnection,
+  handleTestConnection,
+} from './handle-submit';
+import type { Connection } from '@/types';
 
 export const RegisterDatabase: FC = () => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+
+    const submitter = (e.nativeEvent as SubmitEvent).submitter;
+    const submitEvent = submitter?.attributes.getNamedItem('value')?.value as
+      | SubmitType
+      | undefined;
+
+    if (!submitEvent) {
+      return;
+    }
+
+    const data: FormData = new FormData(e.currentTarget);
+    const connection = Object.fromEntries(
+      data.entries(),
+    ) as unknown as Connection;
+
+    if (submitEvent === 'test') {
+      return handleTestConnection(connection);
+    }
+
+    if (submitEvent === 'save') {
+      return handleSaveConnection(connection);
+    }
+
+    // console.log('asd', );
+  };
   return (
     <div className="pt-4 flex-[0.5] m-auto">
       <h3 className="mb-4">Create connection</h3>
-      <form action={handleSave} className="space-y-4 p-1 overflow-y-scroll">
+      <form onSubmit={handleSubmit} className="space-y-4 p-1 overflow-y-scroll">
         <Separator />
         <div className="grid gap-[10px]">
           <label htmlFor="name">Name</label>
@@ -43,18 +76,21 @@ export const RegisterDatabase: FC = () => {
           />
         </div>
         <div className="flex justify-between">
-          <Button variant="outline" type="submit" formAction={tooManyNights}>
+          <Button variant="outline" type="submit" name="action" value="test">
             Test Connection
           </Button>
           <div className="flex gap-2">
             <Button
               variant="secondary"
               type="submit"
-              formAction={tooManyNights}
+              name="action"
+              value="save"
             >
               Save
             </Button>
-            <Button type="submit">Enter</Button>
+            <Button type="submit" name="action" value="enter">
+              Enter
+            </Button>
           </div>
         </div>
       </form>

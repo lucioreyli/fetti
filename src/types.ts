@@ -4,3 +4,9 @@ export type Connection = {
   port?: number;
   sslRequired: boolean;
 };
+
+declare global {
+  interface DocumentEventMap {
+    'create-connection': CustomEvent<{ connection: string }>;
+  }
+}
