@@ -12,8 +12,3 @@ export const handleSaveConnection = (connection: Connection) => {
   const event = new CustomEvent('create-connection', { detail: connection });
   window.dispatchEvent(event);
 };
-
-export const tooManyNights = (form: FormData) => {
-  const data = formatForm<Connection>(form);
-  console.log('too many nights', data);
-};
