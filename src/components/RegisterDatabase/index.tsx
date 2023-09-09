@@ -8,9 +8,12 @@ import {
   handleTestConnection,
 } from './handle-submit';
 import type { Connection } from '@/types';
+import { useToast } from '../ui/use-toast';
 
 export const RegisterDatabase: FC = () => {
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const { toast } = useToast();
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     const submitter = (e.nativeEvent as SubmitEvent).submitter;
@@ -28,15 +31,17 @@ export const RegisterDatabase: FC = () => {
     ) as unknown as Connection;
 
     if (submitEvent === 'test') {
-      console.log('testando conexão');
-      return handleTestConnection(connection);
+      const res = await handleTestConnection(connection);
+      console.log(res);
+      toast({
+        variant: res ? 'default' : 'destructive',
+        title: res ? '✅ Success' : '❌ Login failed',
+      });
     }
 
     if (submitEvent === 'save') {
       return handleSaveConnection(connection);
     }
-
-    // console.log('asd', );
   };
   return (
     <div className="pt-4 flex-[0.5] m-auto">
@@ -53,8 +58,8 @@ export const RegisterDatabase: FC = () => {
             <input
               id="host"
               name="host"
-              required
               defaultValue="localhost"
+              required
               autoCorrect="off"
               autoComplete="off"
             />
@@ -74,6 +79,9 @@ export const RegisterDatabase: FC = () => {
             name="password"
             placeholder="Password"
             type="password"
+            required
+            autoCorrect="off"
+            autoComplete="off"
           />
         </div>
         <div className="flex justify-between">
