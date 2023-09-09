@@ -134,6 +134,8 @@ export const RegisterDatabase: FC = () => {
             onChange={handleOnChange('username')}
             value={form.username}
           />
+        </div>
+        <div className="grid gap-[10px]">
           <label htmlFor="password">Password</label>
           <input
             id="password"
