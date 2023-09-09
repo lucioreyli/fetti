@@ -1,17 +1,20 @@
 'use client';
-import { useEffect, type FC, type FormEventHandler } from 'react';
+import {
+  useEffect,
+  type FC,
+  type FormEventHandler,
+  useState,
+  type ChangeEventHandler,
+} from 'react';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
-import {
-  SubmitType,
-  handleSaveConnection,
-  handleTestConnection,
-} from './handle-submit';
+import { SubmitType, handleTestConnection } from './handle-submit';
 import type { Connection } from '@/types';
 import { useToast } from '../ui/use-toast';
 import { useConnectionsStore } from '@/store/connections';
 
 export const RegisterDatabase: FC = () => {
+  const [form, setForm] = useState<Partial<Connection>>({});
   const { toast } = useToast();
   const saveNewConnection = useConnectionsStore(
     (state) => state.saveNewConnection,
@@ -50,13 +53,19 @@ export const RegisterDatabase: FC = () => {
 
   useEffect(() => {
     const getSelectedConnection = (data: unknown) => {
-      (data as { detail: Connection }).detail as Connection;
+      const connection = (data as { detail: Connection }).detail as Connection;
+      setForm(connection);
     };
 
     window.addEventListener('select-connection', getSelectedConnection);
     return () =>
       window.removeEventListener('select-connection', getSelectedConnection);
   }, []);
+
+  const handleOnChange =
+    (field: keyof Connection): ChangeEventHandler<HTMLInputElement> =>
+    (e) =>
+      setForm((state) => ({ ...state, [field]: e.target.value }));
 
   return (
     <div className="pt-4 flex-[0.5] m-auto">
@@ -65,7 +74,13 @@ export const RegisterDatabase: FC = () => {
         <Separator />
         <div className="grid gap-[10px]">
           <label htmlFor="name">Name</label>
-          <input id="name" name="name" placeholder="Connection name" />
+          <input
+            id="name"
+            name="name"
+            placeholder="Connection name"
+            onChange={handleOnChange('name')}
+            value={form.name}
+          />
         </div>
         <div className="flex gap-4">
           <div className="grid gap-[10px] flex-1">
@@ -77,6 +92,8 @@ export const RegisterDatabase: FC = () => {
               required
               autoCorrect="off"
               autoComplete="off"
+              onChange={handleOnChange('host')}
+              value={form.host}
             />
           </div>
           <div className="grid gap-[10px] w-[140px]">
@@ -87,6 +104,8 @@ export const RegisterDatabase: FC = () => {
               type="number"
               placeholder="Port"
               defaultValue="5432"
+              onChange={handleOnChange('port')}
+              value={form.port}
             />
           </div>
         </div>
@@ -99,21 +118,32 @@ export const RegisterDatabase: FC = () => {
             required
             autoCorrect="off"
             autoComplete="off"
+            onChange={handleOnChange('dbName')}
+            value={form.dbName}
           />
         </div>
         <Separator />
         <div className="grid gap-[10px]">
           <label htmlFor="username">Username</label>
-          <input id="username" name="username" placeholder="Username" />
+          <input
+            id="username"
+            name="username"
+            placeholder="Username"
+            autoCorrect="off"
+            autoComplete="off"
+            onChange={handleOnChange('username')}
+            value={form.username}
+          />
           <label htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
             placeholder="Password"
             type="password"
-            required
             autoCorrect="off"
             autoComplete="off"
+            onChange={handleOnChange('password')}
+            value={form.password}
           />
         </div>
         <div className="flex justify-between">
