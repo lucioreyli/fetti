@@ -1,5 +1,5 @@
 'use client';
-import type { FC, FormEventHandler } from 'react';
+import { useEffect, type FC, type FormEventHandler } from 'react';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import {
@@ -9,9 +9,13 @@ import {
 } from './handle-submit';
 import type { Connection } from '@/types';
 import { useToast } from '../ui/use-toast';
+import { useConnectionsStore } from '@/store/connections';
 
 export const RegisterDatabase: FC = () => {
   const { toast } = useToast();
+  const saveNewConnection = useConnectionsStore(
+    (state) => state.saveNewConnection,
+  );
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -40,9 +44,20 @@ export const RegisterDatabase: FC = () => {
     }
 
     if (submitEvent === 'save') {
-      return handleSaveConnection(connection);
+      return saveNewConnection(connection);
     }
   };
+
+  useEffect(() => {
+    const getSelectedConnection = (data: unknown) => {
+      (data as { detail: Connection }).detail as Connection;
+    };
+
+    window.addEventListener('select-connection', getSelectedConnection);
+    return () =>
+      window.removeEventListener('select-connection', getSelectedConnection);
+  }, []);
+
   return (
     <div className="pt-4 flex-[0.5] m-auto">
       <h3 className="mb-4">Create connection</h3>
@@ -53,7 +68,7 @@ export const RegisterDatabase: FC = () => {
           <input id="name" name="name" placeholder="Connection name" />
         </div>
         <div className="flex gap-4">
-          <div className="grid gap-[10px]">
+          <div className="grid gap-[10px] flex-1">
             <label htmlFor="host">Host</label>
             <input
               id="host"
@@ -66,8 +81,25 @@ export const RegisterDatabase: FC = () => {
           </div>
           <div className="grid gap-[10px] w-[140px]">
             <label htmlFor="port">Port</label>
-            <input id="port" name="port" type="number" defaultValue="5432" />
+            <input
+              id="port"
+              name="port"
+              type="number"
+              placeholder="Port"
+              defaultValue="5432"
+            />
           </div>
+        </div>
+        <div className="grid gap-[10px] flex-1">
+          <label htmlFor="dbName">Default database</label>
+          <input
+            id="dbName"
+            name="dbName"
+            placeholder="Default database"
+            required
+            autoCorrect="off"
+            autoComplete="off"
+          />
         </div>
         <Separator />
         <div className="grid gap-[10px]">
