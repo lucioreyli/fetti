@@ -1,6 +1,9 @@
-use tauri;
+use crate::create_connection::create_connection;
 
 #[tauri::command]
-pub fn enter_session(name: &str) -> String {
-    format!("logged as {}!", name)
+pub fn test_connection(name: &str) -> String {
+    let origin = create_connection(name);
+    println!("{}", origin);
+    let res = format!("logged as {}!", name);
+    return res;
 }

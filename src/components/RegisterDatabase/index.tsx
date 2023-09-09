@@ -28,6 +28,7 @@ export const RegisterDatabase: FC = () => {
     ) as unknown as Connection;
 
     if (submitEvent === 'test') {
+      console.log('testando conexão');
       return handleTestConnection(connection);
     }
 
