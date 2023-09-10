@@ -4,9 +4,9 @@ import { invoke } from '@tauri-apps/api/tauri';
 
 export type SubmitType = 'test' | 'save' | 'enter';
 
-export const handleTestConnection = async (connection: Connection) => {
-  console.log(connection);
+export const handleTestConnection = async (
+  connection: Connection,
+): Promise<boolean> => {
   const conStr = mountConnectionStr(connection);
-  console.log(conStr);
-  return await invoke<string>('test_connection', { name: conStr });
+  return await invoke<boolean>('test_connection', { name: conStr });
 };

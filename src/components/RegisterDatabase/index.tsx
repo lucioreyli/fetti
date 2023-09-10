@@ -12,9 +12,18 @@ import { SubmitType, handleTestConnection } from './handle-submit';
 import type { Connection } from '@/types';
 import { useToast } from '../ui/use-toast';
 import { useConnectionsStore } from '@/store/connections';
+import { Switch } from '../ui/switch';
 
 export const RegisterDatabase: FC = () => {
-  const [form, setForm] = useState<Partial<Connection>>({});
+  const [form, setForm] = useState<Partial<Connection>>({
+    host: 'localhost',
+    port: 5432,
+    username: '',
+    password: '',
+    name: '',
+    dbName: 'postgres',
+    sslRequired: false,
+  });
   const { toast } = useToast();
   const saveNewConnection = useConnectionsStore(
     (state) => state.saveNewConnection,
@@ -36,6 +45,9 @@ export const RegisterDatabase: FC = () => {
     const connection = Object.fromEntries(
       data.entries(),
     ) as unknown as Connection;
+    connection.sslRequired =
+      (connection.sslRequired as unknown as string) === 'on';
+    console.log(connection);
 
     if (submitEvent === 'test') {
       const res = await handleTestConnection(connection);
@@ -54,6 +66,7 @@ export const RegisterDatabase: FC = () => {
   useEffect(() => {
     const getSelectedConnection = (data: unknown) => {
       const connection = (data as { detail: Connection }).detail as Connection;
+      console.log(connection);
       setForm(connection);
     };
 
@@ -63,12 +76,15 @@ export const RegisterDatabase: FC = () => {
   }, []);
 
   const handleOnChange =
-    (field: keyof Connection): ChangeEventHandler<HTMLInputElement> =>
+    (
+      field: keyof Connection,
+      keep = false,
+    ): ChangeEventHandler<HTMLInputElement> =>
     (e) =>
-      setForm((state) => ({ ...state, [field]: e.target.value }));
+      setForm((state) => ({ ...state, [field]: keep ? e : e.target.value }));
 
   return (
-    <div className="pt-4 flex-[0.5] m-auto">
+    <div className="py-8 w-1/2 mx-auto">
       <h3 className="mb-4">Create connection</h3>
       <form onSubmit={handleSubmit} className="space-y-4 p-1 overflow-y-scroll">
         <Separator />
@@ -88,7 +104,6 @@ export const RegisterDatabase: FC = () => {
             <input
               id="host"
               name="host"
-              defaultValue="localhost"
               required
               autoCorrect="off"
               autoComplete="off"
@@ -103,7 +118,6 @@ export const RegisterDatabase: FC = () => {
               name="port"
               type="number"
               placeholder="Port"
-              defaultValue="5432"
               onChange={handleOnChange('port')}
               value={form.port}
             />
@@ -120,6 +134,24 @@ export const RegisterDatabase: FC = () => {
             autoComplete="off"
             onChange={handleOnChange('dbName')}
             value={form.dbName}
+          />
+        </div>
+        <div className="flex justify-between items-center rounded-lg border p-4">
+          <div className="grid gap-[10px]">
+            <label htmlFor="sslRequired">SSL</label>
+            <span className="text-sm text-muted-foreground">
+              Use SSL connection
+            </span>
+          </div>
+          <Switch
+            id="sslRequired"
+            name="sslRequired"
+            checked={form.sslRequired}
+            onCheckedChange={
+              handleOnChange('sslRequired', true) as unknown as (
+                value: boolean,
+              ) => void
+            }
           />
         </div>
         <Separator />

@@ -10,14 +10,18 @@ export const DBItem: FC<{ item: Connection } & ButtonProps> = ({
   return (
     <Button
       variant="secondary"
-      className="flex gap-2 flex-1 w-full p-4 items-center justify-start"
+      className="flex gap-6 flex-1 w-full py-7 px-5 justify-start"
       {...props}
     >
       <PostgresIcon className="w-4 h-4" />
-      <span className="font-semibold">
-        {item.name || 'Postgres connection'}
-      </span>
-      <span className="font-semibold">{item.name}</span>
+      <div className="flex flex-col items-start overflow-hidden text-ellipsis whitespace-nowrap">
+        <span className="block font-semibold">
+          {item.name || 'Postgres connection'}
+        </span>
+        <span className=" text-sm !w-[3px] text-muted-foreground text-ellipsis whitespace-nowrap">
+          {item.host}
+        </span>
+      </div>
     </Button>
   );
 };
