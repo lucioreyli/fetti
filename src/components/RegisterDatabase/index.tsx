@@ -155,30 +155,32 @@ export const RegisterDatabase: FC = () => {
           />
         </div>
         <Separator />
-        <div className="grid gap-[10px]">
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            name="username"
-            placeholder="Username"
-            autoCorrect="off"
-            autoComplete="off"
-            onChange={handleOnChange('username')}
-            value={form.username}
-          />
-        </div>
-        <div className="grid gap-[10px]">
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            placeholder="Password"
-            type="password"
-            autoCorrect="off"
-            autoComplete="off"
-            onChange={handleOnChange('password')}
-            value={form.password}
-          />
+        <div className="flex gap-4">
+          <div className="grid gap-[10px]">
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              name="username"
+              placeholder="Username"
+              autoCorrect="off"
+              autoComplete="off"
+              onChange={handleOnChange('username')}
+              value={form.username}
+            />
+          </div>
+          <div className="grid gap-[10px]">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              placeholder="Password"
+              type="password"
+              autoCorrect="off"
+              autoComplete="off"
+              onChange={handleOnChange('password')}
+              value={form.password}
+            />
+          </div>
         </div>
         <div className="flex justify-between">
           <Button variant="outline" type="submit" name="action" value="test">
