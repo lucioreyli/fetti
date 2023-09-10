@@ -2,9 +2,9 @@
 import { useEffect, type FC, useState } from 'react';
 import { DBItem } from '../DBItem';
 import { useConnectionsStore } from '@/store/connections';
-import { Connection } from '@/types';
+import type { Connection } from '@/types';
 
-export const LeftBar: FC = () => {
+export const SavedDatabases: FC = () => {
   const [savedDbs] = useConnectionsStore((state) => [state.connections]);
   const [loaded, setLoaded] = useState(false);
 
@@ -19,7 +19,7 @@ export const LeftBar: FC = () => {
   };
 
   return (
-    <div className="py-6 px-6 space-y-2 overflow-auto h-full">
+    <div className="py-6 px-6 space-y-2 overflow-auto h-full flex-[0.25]">
       <h4 className="ll-m-20 border-b pb-2 tracking-tight transition-colors first:mt-0 mb-4">
         Saved databases
       </h4>

@@ -1,7 +1,7 @@
-import { LeftBar } from '@/components/LeftBar';
 import type { NextPage } from 'next';
 import { RegisterDatabase } from '@/components/RegisterDatabase';
 import { Separator } from '@/components/ui/separator';
+import { SavedDatabases } from '@/components/SavedDatabases';
 
 const Home: NextPage = () => {
   const {} = process.env;
@@ -11,7 +11,7 @@ const Home: NextPage = () => {
         <RegisterDatabase />
       </div>
       <Separator orientation="vertical" />
-      <LeftBar />
+      <SavedDatabases />
     </main>
   );
 };
