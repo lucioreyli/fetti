@@ -3,6 +3,12 @@ import { useEffect, type FC, useState } from 'react';
 import { DBItem } from '../DBItem';
 import { useConnectionsStore } from '@/store/connections';
 import type { Connection } from '@/types';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from '../ui/context-menu';
 
 export const SavedDatabases: FC = () => {
   const [savedDbs] = useConnectionsStore((state) => [state.connections]);
@@ -24,11 +30,17 @@ export const SavedDatabases: FC = () => {
         Saved databases
       </h4>
       {(loaded ? savedDbs : []).map((item, index) => (
-        <DBItem
-          key={index.toString()}
-          item={item}
-          onClick={() => handleSelectItem(item)}
-        />
+        <ContextMenu key={index.toString()}>
+          <ContextMenuTrigger>
+            <DBItem item={item} onClick={() => handleSelectItem(item)} />
+          </ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem>Profile</ContextMenuItem>
+            <ContextMenuItem>Billing</ContextMenuItem>
+            <ContextMenuItem>Team</ContextMenuItem>
+            <ContextMenuItem>Subscription</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
       ))}
     </div>
   );
