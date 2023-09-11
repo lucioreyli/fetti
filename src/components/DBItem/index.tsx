@@ -9,12 +9,12 @@ export const DBItem: FC<{ item: Connection } & ButtonProps> = ({
 }) => {
   return (
     <Button
-      variant="secondary"
+      variant="link"
       className="flex justify-between w-full py-7 px-5 text-left flex-1 mb-2"
       {...props}
     >
       <div className="mr-6">
-        <PostgresIcon className="w-4 h-4" />
+        <PostgresIcon className="w-6 h-6" />
       </div>
       <div className="w-10/12">
         <span className="text-normal block w-full overflow-hidden truncate">

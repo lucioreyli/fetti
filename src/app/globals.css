@@ -59,6 +59,10 @@
   label {
     @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
   }
+
+  h2 {
+    @apply mb-2 px-4 text-lg font-semibold tracking-tight;
+  }
   
   h3 { 
     @apply scroll-m-20 text-2xl font-semibold tracking-tight;

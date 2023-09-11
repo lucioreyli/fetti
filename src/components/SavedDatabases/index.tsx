@@ -10,6 +10,7 @@ import {
   ContextMenuTrigger,
 } from '../ui/context-menu';
 import { Copy, PlugZap2, Trash } from 'lucide-react';
+import { Separator } from '../ui/separator';
 
 export const SavedDatabases: FC = () => {
   const [savedDbs, deleteConnectionById, duplicateConnectionById] =
@@ -31,7 +32,7 @@ export const SavedDatabases: FC = () => {
   };
 
   return (
-    <div className="py-6 px-6 space-y-4 overflow-auto h-full flex-[0.25]">
+    <div className="p-6 space-y-4 overflow-auto h-full flex-[0.25]">
       <h4 className="ll-m-20 border-b pb-2 tracking-tight transition-colors first:mt-0 mb-4">
         Saved databases
       </h4>
@@ -49,7 +50,11 @@ export const SavedDatabases: FC = () => {
               <Copy className="w-4 h-4 mr-2" />
               Duplicate
             </ContextMenuItem>
-            <ContextMenuItem onClick={() => deleteConnectionById(item.id)}>
+            <Separator />
+            <ContextMenuItem
+              className="text-primary hover:text-primary"
+              onClick={() => deleteConnectionById(item.id)}
+            >
               <Trash className="w-4 h-4 mr-2" />
               Delete
             </ContextMenuItem>
