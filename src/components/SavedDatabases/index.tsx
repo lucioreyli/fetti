@@ -9,15 +9,21 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '../ui/context-menu';
+import { Copy, PlugZap2, Trash } from 'lucide-react';
 
 export const SavedDatabases: FC = () => {
-  const [savedDbs] = useConnectionsStore((state) => [state.connections]);
+  const [savedDbs, deleteConnectionById, duplicateConnectionById] =
+    useConnectionsStore((state) => [
+      state.connections,
+      state.deleteConnectionById,
+      state.duplicateConnectionById,
+    ]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     // Fix hydratation error - https://github.com/pmndrs/zustand/issues/938#issuecomment-1422805072
     setLoaded(true);
-  }, [savedDbs]);
+  }, []);
 
   const handleSelectItem = (connection: Connection) => {
     const event = new CustomEvent('select-connection', { detail: connection });
@@ -25,20 +31,28 @@ export const SavedDatabases: FC = () => {
   };
 
   return (
-    <div className="py-6 px-6 space-y-2 overflow-auto h-full flex-[0.25]">
+    <div className="py-6 px-6 space-y-4 overflow-auto h-full flex-[0.25]">
       <h4 className="ll-m-20 border-b pb-2 tracking-tight transition-colors first:mt-0 mb-4">
         Saved databases
       </h4>
-      {(loaded ? savedDbs : []).map((item, index) => (
-        <ContextMenu key={index.toString()}>
-          <ContextMenuTrigger>
+      {(loaded ? savedDbs : []).map((item) => (
+        <ContextMenu key={item.id}>
+          <ContextMenuTrigger key={item.id}>
             <DBItem item={item} onClick={() => handleSelectItem(item)} />
           </ContextMenuTrigger>
           <ContextMenuContent>
-            <ContextMenuItem>Profile</ContextMenuItem>
-            <ContextMenuItem>Billing</ContextMenuItem>
-            <ContextMenuItem>Team</ContextMenuItem>
-            <ContextMenuItem>Subscription</ContextMenuItem>
+            <ContextMenuItem>
+              <PlugZap2 className="w-4 h-4 mr-2" />
+              Connect
+            </ContextMenuItem>
+            <ContextMenuItem onClick={() => duplicateConnectionById(item.id)}>
+              <Copy className="w-4 h-4 mr-2" />
+              Duplicate
+            </ContextMenuItem>
+            <ContextMenuItem onClick={() => deleteConnectionById(item.id)}>
+              <Trash className="w-4 h-4 mr-2" />
+              Delete
+            </ContextMenuItem>
           </ContextMenuContent>
         </ContextMenu>
       ))}

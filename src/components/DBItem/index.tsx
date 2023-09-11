@@ -10,7 +10,7 @@ export const DBItem: FC<{ item: Connection } & ButtonProps> = ({
   return (
     <Button
       variant="secondary"
-      className="flex justify-between w-full py-7 px-5 text-left flex-1"
+      className="flex justify-between w-full py-7 px-5 text-left flex-1 mb-2"
       {...props}
     >
       <div className="mr-6">

@@ -6,6 +6,8 @@ type UseConnectionStore = {
   connections: Connection[];
   saveNewConnection: (con: Connection) => void;
   setConnections: (connections: Connection[]) => void;
+  deleteConnectionById: (id: string) => void;
+  duplicateConnectionById: (id: string) => void;
 };
 
 export const useConnectionsStore = create<UseConnectionStore>()(
@@ -15,6 +17,23 @@ export const useConnectionsStore = create<UseConnectionStore>()(
       setConnections: (con) => set({ connections: con }),
       saveNewConnection: (con) =>
         set({ connections: get().connections.concat(con) }),
+      deleteConnectionById: (id) =>
+        set((state) => ({
+          connections: state.connections.filter((i) => i.id !== id),
+        })),
+      duplicateConnectionById: (id) => {
+        const connections = get().connections;
+        const connectionIndex = connections.findIndex((con) => con.id === id);
+        if (connectionIndex < 0) {
+          return;
+        }
+        const connection = connections[connectionIndex];
+        connections.splice(connectionIndex, 0, {
+          ...connection,
+          id: window.crypto.randomUUID(),
+        });
+        return set({ connections: connections });
+      },
     }),
     {
       name: 'connections-storage',

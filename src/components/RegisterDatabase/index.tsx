@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
-import { SubmitType, handleTestConnection } from './handle-submit';
+import { type SubmitType, handleTestConnection } from './handle-submit';
 import type { Connection } from '@/types';
 import { useToast } from '../ui/use-toast';
 import { useConnectionsStore } from '@/store/connections';
@@ -47,26 +47,25 @@ export const RegisterDatabase: FC = () => {
     ) as unknown as Connection;
     connection.sslRequired =
       (connection.sslRequired as unknown as string) === 'on';
-    console.log(connection);
 
     if (submitEvent === 'test') {
       const res = await handleTestConnection(connection);
-      console.log(res);
-      toast({
+      return toast({
         variant: res ? 'default' : 'destructive',
         title: res ? '✅ Success' : '❌ Login failed',
       });
     }
 
     if (submitEvent === 'save') {
-      return saveNewConnection(connection);
+      return saveNewConnection(
+        Object.assign(connection, { id: window.crypto.randomUUID() }),
+      );
     }
   };
 
   useEffect(() => {
     const getSelectedConnection = (data: unknown) => {
       const connection = (data as { detail: Connection }).detail as Connection;
-      console.log(connection);
       setForm(connection);
     };
 
@@ -84,7 +83,7 @@ export const RegisterDatabase: FC = () => {
       setForm((state) => ({ ...state, [field]: keep ? e : e.target.value }));
 
   return (
-    <div className="py-8 w-1/2 mx-auto">
+    <div className="py-8 w-10/12 md:w-1/2 mx-auto">
       <h3 className="mb-4">Create connection</h3>
       <form onSubmit={handleSubmit} className="space-y-4 p-1 overflow-y-scroll">
         <Separator />

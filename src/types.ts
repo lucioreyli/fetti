@@ -1,4 +1,5 @@
 export type Connection = {
+  id: string;
   username: string;
   password?: string;
   name?: string;
