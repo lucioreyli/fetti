@@ -1,7 +1,8 @@
 {
   "name": "fetti",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "author": "Lucio Andrade <lucioandradejr@gmail.com>",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

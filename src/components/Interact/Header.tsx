@@ -17,9 +17,9 @@ type Props = { tableName: string };
 export const Header: FC<Props> = ({ tableName }) => {
   return (
     <nav className="flex justify-between items-center">
-      <h3 aria-label="table name">{tableName}</h3>
-      <TooltipProvider>
-        <div className="text-muted-foreground flex gap-x-4 divide-">
+      <h3 aria-label="Table name">{tableName}</h3>
+      <div className="text-muted-foreground flex gap-x-4 divide-">
+        <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
               <span className="flex items-center text-sm gap-x-1">
@@ -53,8 +53,8 @@ export const Header: FC<Props> = ({ tableName }) => {
               <p>Database latency</p>
             </TooltipContent>
           </Tooltip>
-        </div>
-      </TooltipProvider>
+        </TooltipProvider>
+      </div>
     </nav>
   );
 };
