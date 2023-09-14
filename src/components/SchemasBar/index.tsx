@@ -5,7 +5,7 @@ import Grid3x3 from 'lucide-react/dist/esm/icons/grid-3x3';
 
 export const SchemasBar: FC = () => {
   return (
-    <div className="flex-[0.15] p-6">
+    <aside className="flex-[0.15] p-6">
       <h2>Tables</h2>
       <div className="space-y-1">
         <Button variant="secondary" className="w-full justify-start">
@@ -21,6 +21,6 @@ export const SchemasBar: FC = () => {
           user_profile
         </Button>
       </div>
-    </div>
+    </aside>
   );
 };
