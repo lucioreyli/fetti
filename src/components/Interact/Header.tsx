@@ -17,7 +17,9 @@ type Props = { tableName: string };
 export const Header: FC<Props> = ({ tableName }) => {
   return (
     <nav className="flex justify-between items-center">
-      <h3 aria-label="Table name">{tableName}</h3>
+      <h3 aria-label="Table name" className="max-w-[20%] truncate">
+        {tableName} asdkjfhasdkjfgaskdjfgas askdjfgkasjdghf as
+      </h3>
       <div className="text-muted-foreground flex gap-x-4 divide-">
         <TooltipProvider>
           <Tooltip>
