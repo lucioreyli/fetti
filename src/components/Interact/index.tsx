@@ -1,4 +1,3 @@
-'use client';
 import type { FC } from 'react';
 import { Header } from './Header';
 import { Separator } from '../ui/separator';
