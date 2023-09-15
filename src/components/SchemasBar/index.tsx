@@ -29,8 +29,7 @@ export const SchemasBar: FC = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel className="hidden">Options</DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            {/*  <DropdownMenuLabel>Options</DropdownMenuLabel><DropdownMenuSeparator /> */}
             <DropdownMenuItem>
               <Code className="w-4 h-4" />
               New Script

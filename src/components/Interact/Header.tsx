@@ -18,7 +18,7 @@ export const Header: FC<Props> = ({ tableName }) => {
   return (
     <nav className="flex justify-between items-center">
       <h3 aria-label="Table name" className="max-w-[20%] truncate">
-        {tableName} asdkjfhasdkjfgaskdjfgas askdjfgkasjdghf as
+        {tableName}
       </h3>
       <div className="text-muted-foreground flex gap-x-4 divide-">
         <TooltipProvider>
