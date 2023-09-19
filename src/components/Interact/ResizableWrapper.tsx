@@ -13,10 +13,7 @@ export const ResizableWrapper: FC<PropsWithChildren> = ({ children }) => {
         ),
         { top: true },
       )}
-      defaultSize={{
-        width: 'auto',
-        height: '260px',
-      }}
+      defaultSize={{ width: 'auto', height: '260px' }}
     >
       {children}
     </Resizable>

@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.entity, .entity.name.function { color: #ff0000; }
+.entity.name.class, var.identifier { color: #ff0000; text-decoration: underline; }
+
  
 :root {
   --background: 0 0% 100%;
