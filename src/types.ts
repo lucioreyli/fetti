@@ -1,3 +1,5 @@
+type Environment = unknown | undefined;
+
 export type Connection = {
   id: string;
   username: string;
@@ -12,5 +14,8 @@ export type Connection = {
 declare global {
   interface DocumentEventMap {
     'create-connection': CustomEvent<{ connection: string }>;
+  }
+  interface Window {
+    MonacoEnvironment: Environment;
   }
 }

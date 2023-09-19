@@ -12,9 +12,7 @@ export const Interact: FC = () => {
         <Script />
       </div>
       <Separator />
-      <ResizableWrapper>
-        <div className="bg-blue-000 flex-1 resize-y"></div>
-      </ResizableWrapper>
+      <div className="bg-blue-000 flex-1 resize-y"></div>
     </div>
   );
 };

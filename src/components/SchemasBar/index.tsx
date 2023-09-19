@@ -42,18 +42,18 @@ export const SchemasBar: FC = () => {
         </DropdownMenu>
       </div>
       <div className="space-y-1">
-        <Button variant="secondary" className="w-full justify-start">
-          <Grid3x3 className="w-4 h-4 mr-2" />
-          users
-        </Button>
-        <Button variant="ghost" className="w-full justify-start">
-          <Grid3x3 className="w-4 h-4 mr-2" />
-          tasks
-        </Button>
-        <Button variant="ghost" className="w-full justify-start">
-          <Grid3x3 className="w-4 h-4 mr-2" />
-          user_profile
-        </Button>
+        {['users', 'tasks', 'users_profile'].map<React.ReactElement>(
+          (tableName, index) => (
+            <Button
+              key={tableName}
+              variant={index ? 'ghost' : 'secondary'}
+              className="w-full justify-start"
+            >
+              <Grid3x3 className="w-4 h-4 mr-2" />
+              {tableName}
+            </Button>
+          ),
+        )}
       </div>
     </aside>
   );
