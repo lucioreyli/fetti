@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Button } from '../ui/button';
+import { Button, buttonVariants } from '../ui/button';
 // @ts-expect-error
 import Grid3x3 from 'lucide-react/dist/esm/icons/grid-3x3';
 // @ts-expect-error
@@ -24,8 +24,10 @@ export const SchemasBar: FC = () => {
         <h2 className="mb-0 m-0">Tables</h2>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant="ghost">
-              <Menu className="w-4 h-4" />
+            <Button variant="outline" asChild>
+              <div>
+                <Menu className="w-4 h-4" />
+              </div>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
