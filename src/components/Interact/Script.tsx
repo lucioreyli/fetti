@@ -11,7 +11,7 @@ export const Script: FC = () => {
 
   useEffect(() => {
     if (!monaco) return;
-    const loadTheme = async () => {
+    const loadTheme = () => {
       const darkTheme = require('./github-dark.json');
       const lightTheme = require('./github-light.json');
       monaco.editor.defineTheme('github-light', lightTheme);
@@ -26,16 +26,19 @@ export const Script: FC = () => {
   }
 
   return (
-    <pre className="border bg-muted flex-1 flex rounded overflow-hidden text-xl">
+    <div className="border bg-muted flex-1 flex rounded overflow-hidden text-xl min-w-0 min-h-0">
       <Editor
         height="100%"
-        // width="auto"
-        className="font-mono rounded"
+        width="100%"
+        wrapperProps={{
+          className: 'bg-red-500 flex-1 w-auto',
+        }}
+        className="font-mono rounded flex-1 min-w-0 min-h-0 w-auto"
         options={editorConfig}
         language="pgsql"
         defaultValue="// some comment"
         theme={resolvedTheme === 'light' ? 'github-light' : 'github-dark'}
       />
-    </pre>
+    </div>
   );
 };

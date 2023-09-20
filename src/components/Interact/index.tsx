@@ -5,10 +5,10 @@ import { Separator } from '../ui/separator';
 import { Script } from './Script';
 
 export const Interact: FC = () => {
-  <Header tableName="users" />;
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-col w-full h-full flex-1 p-6 space-y-4 overflow-scroll">
+      <div className="flex flex-col w-full h-full flex-1 p-6 space-y-4 overflow-scroll min-w-0">
+        <Header tableName="users" />
         <Script />
       </div>
       <Separator />

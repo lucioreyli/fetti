@@ -17,4 +17,6 @@ export const editorConfig: EditorProps['options'] = {
   folding: false,
   suggestOnTriggerCharacters: false,
   quickSuggestions: false,
+  automaticLayout: true,
+  extraEditorClassName: 'min-w-0 min-h-0 flex-1',
 };
