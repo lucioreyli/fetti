@@ -3,9 +3,11 @@ import Editor, { useMonaco } from '@monaco-editor/react';
 import { useTheme } from 'next-themes';
 import { useEffect, type FC, useState } from 'react';
 import { editorConfig } from './editor-config';
+import { useCodeStore } from '@/store/code-store';
 
 export const Script: FC = () => {
   const monaco = useMonaco();
+  const setCode = useCodeStore((state) => state.setCode);
   const { resolvedTheme } = useTheme();
   const [themeLoaded, setThemeLoaded] = useState(false);
 
@@ -21,6 +23,9 @@ export const Script: FC = () => {
     loadTheme();
   }, [resolvedTheme, monaco]);
 
+  const currentTheme =
+    resolvedTheme === 'light' ? 'github-light' : 'github-dark';
+  const onChange = (code: string | undefined) => setCode(code ?? '');
   // TODO: fix code editor width resizing
   return (
     <div className="border bg-muted flex-1 flex rounded overflow-hidden text-xl min-w-0 min-h-0">
@@ -30,7 +35,8 @@ export const Script: FC = () => {
           options={editorConfig}
           language="pgsql"
           defaultValue="// some comment"
-          theme={resolvedTheme === 'light' ? 'github-light' : 'github-dark'}
+          theme={currentTheme}
+          onChange={onChange}
         />
       ) : (
         <></>

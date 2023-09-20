@@ -1,10 +1,11 @@
 import type { Connection } from '@/types';
 import { persist } from 'zustand/middleware';
 import { create } from 'zustand';
+import type { Setter } from './types';
 
 type UseConnectionStore = {
   connections: Connection[];
-  saveNewConnection: (con: Connection) => void;
+  saveNewConnection: Setter<Connection>;
   setConnections: (connections: Connection[]) => void;
   deleteConnectionById: (id: string) => void;
   duplicateConnectionById: (id: string) => void;
