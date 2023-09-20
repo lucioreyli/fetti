@@ -21,24 +21,20 @@ export const Script: FC = () => {
     loadTheme();
   }, [resolvedTheme, monaco]);
 
-  if (!themeLoaded) {
-    return <></>;
-  }
-
+  // TODO: fix code editor width resizing
   return (
     <div className="border bg-muted flex-1 flex rounded overflow-hidden text-xl min-w-0 min-h-0">
-      <Editor
-        height="100%"
-        width="100%"
-        wrapperProps={{
-          className: 'bg-red-500 flex-1 w-auto',
-        }}
-        className="font-mono rounded flex-1 min-w-0 min-h-0 w-auto"
-        options={editorConfig}
-        language="pgsql"
-        defaultValue="// some comment"
-        theme={resolvedTheme === 'light' ? 'github-light' : 'github-dark'}
-      />
+      {themeLoaded ? (
+        <Editor
+          className="font-mono rounded flex-1 min-w-0 min-h-0 w-auto"
+          options={editorConfig}
+          language="pgsql"
+          defaultValue="// some comment"
+          theme={resolvedTheme === 'light' ? 'github-light' : 'github-dark'}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
