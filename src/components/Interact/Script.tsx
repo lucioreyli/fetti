@@ -1,6 +1,4 @@
 'use client';
-import 'monaco-sql-languages/out/esm/mysql/mysql.contribution';
-import 'monaco-sql-languages/out/esm/pgsql/pgsql.contribution';
 import Editor, { useMonaco } from '@monaco-editor/react';
 import { useTheme } from 'next-themes';
 import { useEffect, type FC, useState } from 'react';
@@ -11,36 +9,6 @@ export const Script: FC = () => {
   const [themeLoaded, setThemeLoaded] = useState(false);
 
   useEffect(() => {
-    window.MonacoEnvironment = {
-      getWorkerUrl: function (_moduleId: number, label: string) {
-        switch (label) {
-          case 'sparksql': {
-            return './sparksql.worker.js';
-          }
-          case 'flinksql': {
-            return './flinksql.worker.js';
-          }
-          case 'hivesql': {
-            return './hivesql.worker.js';
-          }
-          case 'mysql': {
-            return './mysql.worker.js';
-          }
-          case 'pgsql': {
-            return './pgsql.worker.js';
-          }
-          case 'plsql': {
-            return './plsql.worker.js';
-          }
-          case 'sql': {
-            return './sql.worker.js';
-          }
-          default: {
-            return './editor.worker.js';
-          }
-        }
-      },
-    };
     if (!monaco) return;
     const loadTheme = async () => {
       const darkTheme = require('./github-dark.json');
@@ -57,13 +25,13 @@ export const Script: FC = () => {
   }
 
   return (
-    <pre className="border flex-1 flex w-full rounded overflow-hidden text-xl">
+    <pre className="border bg-muted flex-1 flex w-full rounded overflow-hidden text-xl">
       <Editor
         height="100%"
         className="font-mono rounded"
         options={{
           minimap: { enabled: false },
-          extraEditorClassName: 'rounded text-xl',
+          extraEditorClassName: 'bg-blue-500',
           contextmenu: false,
           find: { autoFindInSelection: 'never' },
           occurrencesHighlight: false,
