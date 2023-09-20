@@ -10,15 +10,18 @@ export const Script: FC = () => {
   const { resolvedTheme } = useTheme();
 
   const loadTheme = (monaco: Monaco) => {
-    const darkTheme = require('./github-dark.json');
-    const lightTheme = require('./github-light.json');
-    monaco.editor.defineTheme('github-light', lightTheme);
-    monaco.editor.defineTheme('github-dark', darkTheme);
+    (
+      [
+        ['github-dark', require('./github-dark.json')],
+        ['github-light', require('./github-light.json')],
+      ] as [string, any][]
+    ).forEach((theme) => monaco.editor.defineTheme(...theme));
   };
+
+  const onChange = (code: string | undefined) => setCode(code ?? '');
 
   const currentTheme =
     resolvedTheme === 'light' ? 'github-light' : 'github-dark';
-  const onChange = (code: string | undefined) => setCode(code ?? '');
 
   // TODO: fix code editor width resizing
   return (

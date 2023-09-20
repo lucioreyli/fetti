@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import type { FC } from 'react';
 import { Header } from './Header';
 import { Separator } from '../ui/separator';
 // import { ResizableWrapper } from './ResizableWrapper';
