@@ -25,13 +25,13 @@ export const Script: FC = () => {
   }
 
   return (
-    <pre className="border bg-muted flex-1 flex w-full rounded overflow-hidden text-xl">
+    <pre className="border bg-muted flex-1 flex rounded overflow-hidden text-xl">
       <Editor
         height="100%"
+        // width="auto"
         className="font-mono rounded"
         options={{
           minimap: { enabled: false },
-          extraEditorClassName: 'bg-blue-500',
           contextmenu: false,
           find: { autoFindInSelection: 'never' },
           occurrencesHighlight: false,
