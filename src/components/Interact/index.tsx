@@ -8,7 +8,7 @@ export const Interact: FC = () => {
   <Header tableName="users" />;
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-col w-full h-full flex-1 p-6 space-y-4 overflow-scroll bg-red-500">
+      <div className="flex flex-col w-full h-full flex-1 p-6 space-y-4 overflow-scroll">
         <Script />
       </div>
       <Separator />

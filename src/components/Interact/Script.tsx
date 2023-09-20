@@ -2,6 +2,7 @@
 import Editor, { useMonaco } from '@monaco-editor/react';
 import { useTheme } from 'next-themes';
 import { useEffect, type FC, useState } from 'react';
+import { editorConfig } from './editor-config';
 
 export const Script: FC = () => {
   const monaco = useMonaco();
@@ -30,20 +31,7 @@ export const Script: FC = () => {
         height="100%"
         // width="auto"
         className="font-mono rounded"
-        options={{
-          minimap: { enabled: false },
-          contextmenu: false,
-          find: { autoFindInSelection: 'never' },
-          occurrencesHighlight: false,
-          tabSize: 4,
-          showUnused: false,
-          lineHeight: 2,
-          fontFamily: 'JetBrainsMono Nerd Font',
-          fontSize: 14,
-          suggest: { preview: false },
-          showDeprecated: false,
-          'semanticHighlighting.enabled': false,
-        }}
+        options={editorConfig}
         language="pgsql"
         defaultValue="// some comment"
         theme={resolvedTheme === 'light' ? 'github-light' : 'github-dark'}
