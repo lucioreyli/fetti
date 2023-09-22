@@ -16,6 +16,7 @@ import { useToast } from '../ui/use-toast';
 import { useConnectionsStore } from '@/store/connections';
 import { Switch } from '../ui/switch';
 import { useRouter } from 'next/navigation';
+import { calculateLatency } from '@/utils/calculate-latency';
 
 export const RegisterDatabase: FC = () => {
   const router = useRouter();
@@ -73,16 +74,23 @@ export const RegisterDatabase: FC = () => {
 
     if (submitEvent === 'enter') {
       setLoading(true);
-      const res = await handleTestConnection(connection).finally(() =>
-        setLoading(false),
+      const { result: res, latency } = calculateLatency(
+        async () =>
+          await handleTestConnection(connection).finally(() =>
+            setLoading(false),
+          ),
       );
       if (typeof res === 'string')
         return toast({ variant: 'destructive', title: `❌ ${res}` });
       const useDatabaseStore = await import('@/store/database-store').then(
         (mod) => mod.useDatabaseStore,
       );
-      useDatabaseStore.getState().setConnection(connection);
-      return router.replace('/database');
+      const { setConnection, setLatency } = useDatabaseStore.getState();
+      setConnection(connection);
+      setLatency(latency);
+      return router.replace(
+        `/database/${connection.dbName || '__fetti-home__'}`,
+      );
     }
   };
 
@@ -151,7 +159,6 @@ export const RegisterDatabase: FC = () => {
             id="dbName"
             name="dbName"
             placeholder="Default database"
-            required
             autoCorrect="off"
             autoComplete="off"
             onChange={handleOnChange('dbName')}

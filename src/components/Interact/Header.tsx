@@ -15,7 +15,16 @@ import {
 import { useDatabaseStore } from '@/store/database-store';
 
 export const Header: FC = () => {
-  const [tableName] = useDatabaseStore((state) => [state.tableName]);
+  const [tableName, latency] = useDatabaseStore((state) => [
+    state.tableName,
+    state.latency,
+  ]);
+
+  const formatLatency = (latency: number) =>
+    latency <= 1000
+      ? `${Math.floor(latency)}ms`
+      : `${Math.floor(latency / 1000)}s`;
+
   return (
     <nav className="flex justify-between items-center">
       <h3 aria-label="Table name" className="max-w-[20%] truncate">
@@ -45,17 +54,19 @@ export const Header: FC = () => {
               <p>Total table rows</p>
             </TooltipContent>
           </Tooltip>
-          <Tooltip>
-            <TooltipTrigger>
-              <span className="flex items-center text-sm gap-x-1">
-                <ArrowDownUp className="w-4 h-4" />
-                10ms
-              </span>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Database latency</p>
-            </TooltipContent>
-          </Tooltip>
+          {typeof latency === 'number' && (
+            <Tooltip>
+              <TooltipTrigger>
+                <span className="flex items-center text-sm gap-x-1">
+                  <ArrowDownUp className="w-4 h-4" />
+                  {formatLatency(latency)}
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Database latency</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
         </TooltipProvider>
       </div>
     </nav>

@@ -6,6 +6,9 @@ type UseDatabaseStore = {
   connection: Connection | null;
   setConnection: Setter<Connection | null>;
 
+  latency: null | number;
+  setLatency: Setter<null | number>;
+
   currentSchema: string | null;
   setCurrentSchema: Setter<string | null>;
 
@@ -19,6 +22,9 @@ type UseDatabaseStore = {
 export const useDatabaseStore = create<UseDatabaseStore>((set) => ({
   connection: null,
   setConnection: (con) => set({ connection: con }),
+
+  latency: null,
+  setLatency: (latency) => set({ latency }),
 
   currentSchema: null,
   setCurrentSchema: (schema) => set({ currentSchema: schema }),
