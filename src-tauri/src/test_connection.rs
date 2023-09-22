@@ -3,8 +3,8 @@ use crate::create_connection::{self, CreateConnection};
 #[tauri::command]
 pub fn test_connection(conn_str: &str, is_ssl: bool) -> Result<bool, String> {
     let connection_config = CreateConnection {
-        is_ssl,
         conn_str: conn_str.to_string(),
+        is_ssl,
     };
     let result_client = create_connection::create_connection(connection_config);
 

@@ -53,6 +53,12 @@ export const RegisterDatabase: FC = () => {
     connection.sslRequired =
       (connection.sslRequired as unknown as string) === 'on';
 
+    if (submitEvent === 'save') {
+      return saveNewConnection(
+        Object.assign(connection, { id: window.crypto.randomUUID() }),
+      );
+    }
+
     if (submitEvent === 'test') {
       setLoading(true);
       await new Promise((res) => {
@@ -61,16 +67,11 @@ export const RegisterDatabase: FC = () => {
       const res = await handleTestConnection(connection).finally(() =>
         setLoading(false),
       );
+      const error = typeof res === 'string';
       return toast({
-        variant: res ? 'default' : 'destructive',
-        title: res ? '✅ Success' : '❌ Login failed',
+        variant: error ? 'destructive' : 'default',
+        title: error ? `❌ ${res}` : '✅ Success',
       });
-    }
-
-    if (submitEvent === 'save') {
-      return saveNewConnection(
-        Object.assign(connection, { id: window.crypto.randomUUID() }),
-      );
     }
 
     if (submitEvent === 'enter') {
@@ -78,8 +79,8 @@ export const RegisterDatabase: FC = () => {
       const res = await handleTestConnection(connection).finally(() =>
         setLoading(false),
       );
-      if (!res)
-        return toast({ variant: 'destructive', title: '❌ Login failed' });
+      if (typeof res === 'string')
+        return toast({ variant: 'destructive', title: `❌ ${res}` });
       setCurrentConnection(connection);
       return router.replace('/database');
     }

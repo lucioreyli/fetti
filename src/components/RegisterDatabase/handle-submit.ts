@@ -6,7 +6,8 @@ export type SubmitType = 'test' | 'save' | 'enter';
 
 export const handleTestConnection = async (
   connection: Connection,
-): Promise<boolean> => {
-  const conStr = mountConnectionStr(connection);
-  return await invoke<boolean>('test_connection', { name: conStr });
-};
+): Promise<boolean> =>
+  invoke<boolean>('test_connection', {
+    connStr: mountConnectionStr(connection),
+    isSsl: connection.sslRequired,
+  }).catch((e) => e);
