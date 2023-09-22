@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import { Header } from './Header';
-import { Table } from '../ui/table';
 import { DBTable } from './db-table';
 import { Script } from './Script';
 import { Actions } from './Actions';
@@ -12,7 +11,7 @@ export const Interact: FC = () => {
       {<DBTable /> ?? (
         <>
           <div className="flex flex-col w-full h-full flex-1 p-6 space-y-4 overflow-scroll min-w-0 border-b">
-            <Header tableName="users" />
+            <Header />
             <Script />
             <Actions />
           </div>
