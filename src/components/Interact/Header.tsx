@@ -1,3 +1,4 @@
+'use client';
 import type { FC } from 'react';
 // @ts-expect-error
 import Database from 'lucide-react/dist/esm/icons/database';
@@ -11,10 +12,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../ui/tooltip';
+import { useDatabaseStore } from '@/store/database-store';
 
-type Props = { tableName: string };
-
-export const Header: FC<Props> = ({ tableName }) => {
+export const Header: FC = () => {
+  const [tableName] = useDatabaseStore((state) => [state.tableName]);
   return (
     <nav className="flex justify-between items-center">
       <h3 aria-label="Table name" className="max-w-[20%] truncate">

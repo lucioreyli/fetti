@@ -1,6 +1,6 @@
 'use client';
 import { useState, type FC, useEffect, useRef } from 'react';
-import { Button, buttonVariants } from '../ui/button';
+import { Button } from '../ui/button';
 // @ts-expect-error
 import Grid3x3 from 'lucide-react/dist/esm/icons/grid-3x3';
 // @ts-expect-error
@@ -15,22 +15,30 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { useConnectionsStore } from '@/store/connections';
 import { getTablesName } from '@/services/get-tables-name';
+import { useDatabaseStore } from '@/store/database-store';
 
 export const SchemasBar: FC = () => {
-  const connection = useRef(useConnectionsStore.getState().connection);
+  const [connection, tableName, setTableName] = useDatabaseStore((state) => [
+    state.connection,
+    state.tableName,
+    state.setTableName,
+  ]);
   const [tables, setTables] = useState<string[] | null>(null);
 
   useEffect(() => {
     const getDatabaseSchema = async () => {
-      if (!connection.current) {
+      if (!connection) {
         return setTables([]);
       }
-      const tables = await getTablesName(connection.current);
+      const tables = await getTablesName(connection);
+      setTableName(tables[0] ?? null);
       setTables(tables);
     };
-  }, []);
+    getDatabaseSchema();
+  }, [connection, setTableName]);
+
+  const handleSelectTable = setTableName;
 
   return (
     <aside className="flex-[0.15] p-6 space-y-6">
@@ -61,14 +69,15 @@ export const SchemasBar: FC = () => {
         {Array.isArray(tables) && tables.length === 0 && (
           <div className="w-full text-center">Tables not found</div>
         )}
-        {tables?.map<React.ReactElement>((tableName, index) => (
+        {tables?.map<React.ReactElement>((item) => (
           <Button
-            key={tableName}
-            variant={index ? 'ghost' : 'secondary'}
+            key={item}
+            variant={tableName === item ? 'secondary' : 'ghost'}
             className="w-full justify-start"
+            onClick={() => handleSelectTable(item)}
           >
             <Grid3x3 className="w-4 h-4 mr-2" />
-            {tableName}
+            {item}
           </Button>
         ))}
       </div>

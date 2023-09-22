@@ -19,7 +19,7 @@ pub fn get_tables(conn_str: &str, is_ssl: bool) -> Result<Vec<String>, String> {
 
     let query_result = client.query(
         "
-SELECT tablename FROM pg_tables WHERE;
+SELECT tablename FROM pg_tables WHERE schemaname = 'public';
         ",
         &[],
     );

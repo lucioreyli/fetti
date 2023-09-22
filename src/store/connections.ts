@@ -9,16 +9,11 @@ type UseConnectionsStore = {
   setConnections: Setter<Connection[]>;
   deleteConnectionById: (id: string) => void;
   duplicateConnectionById: (id: string) => void;
-
-  connection: Connection | null;
-  setConnection: Setter<Connection>;
 };
 
 export const useConnectionsStore = create<UseConnectionsStore>()(
   persist(
     (set, get) => ({
-      connection: null,
-      setConnection: (con) => set({ connection: con }),
       connections: [],
       setConnections: (con) => set({ connections: con }),
       saveNewConnection: (con) =>

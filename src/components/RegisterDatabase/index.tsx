@@ -29,8 +29,8 @@ export const RegisterDatabase: FC = () => {
     sslRequired: false,
   });
   const { toast } = useToast();
-  const [saveNewConnection, setCurrentConnection] = useConnectionsStore(
-    (state) => [state.saveNewConnection, state.setConnection],
+  const saveNewConnection = useConnectionsStore(
+    (state) => state.saveNewConnection,
   );
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -61,9 +61,6 @@ export const RegisterDatabase: FC = () => {
 
     if (submitEvent === 'test') {
       setLoading(true);
-      await new Promise((res) => {
-        setTimeout(res, 2000);
-      });
       const res = await handleTestConnection(connection).finally(() =>
         setLoading(false),
       );
@@ -81,7 +78,10 @@ export const RegisterDatabase: FC = () => {
       );
       if (typeof res === 'string')
         return toast({ variant: 'destructive', title: `❌ ${res}` });
-      setCurrentConnection(connection);
+      const useDatabaseStore = await import('@/store/database-store').then(
+        (mod) => mod.useDatabaseStore,
+      );
+      useDatabaseStore.getState().setConnection(connection);
       return router.replace('/database');
     }
   };
