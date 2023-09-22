@@ -17,5 +17,5 @@ pub fn create_connection(con_str: &str, ssl: bool) -> Result<bool, Box<dyn std::
 
     println!("{:?}", res);
 
-    Ok(true)
+    Ok(client)
 }

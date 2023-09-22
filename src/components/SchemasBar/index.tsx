@@ -1,4 +1,5 @@
-import type { FC } from 'react';
+'use client';
+import { useState, type FC, useEffect, useRef } from 'react';
 import { Button, buttonVariants } from '../ui/button';
 // @ts-expect-error
 import Grid3x3 from 'lucide-react/dist/esm/icons/grid-3x3';
@@ -12,12 +13,25 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import { useConnectionsStore } from '@/store/connections';
+import { getTablesName } from '@/services/get-tables-name';
 
 export const SchemasBar: FC = () => {
+  const connection = useRef(useConnectionsStore.getState().connection);
+  const [tables, setTables] = useState<string[] | null>(null);
+
+  useEffect(() => {
+    const getDatabaseSchema = async () => {
+      if (!connection.current) {
+        return setTables([]);
+      }
+      const tables = await getTablesName(connection.current);
+      setTables(tables);
+    };
+  }, []);
+
   return (
     <aside className="flex-[0.15] p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -44,18 +58,19 @@ export const SchemasBar: FC = () => {
         </DropdownMenu>
       </div>
       <div className="space-y-1">
-        {['users', 'tasks', 'users_profile'].map<React.ReactElement>(
-          (tableName, index) => (
-            <Button
-              key={tableName}
-              variant={index ? 'ghost' : 'secondary'}
-              className="w-full justify-start"
-            >
-              <Grid3x3 className="w-4 h-4 mr-2" />
-              {tableName}
-            </Button>
-          ),
+        {Array.isArray(tables) && tables.length === 0 && (
+          <div className="w-full text-center">Tables not found</div>
         )}
+        {tables?.map<React.ReactElement>((tableName, index) => (
+          <Button
+            key={tableName}
+            variant={index ? 'ghost' : 'secondary'}
+            className="w-full justify-start"
+          >
+            <Grid3x3 className="w-4 h-4 mr-2" />
+            {tableName}
+          </Button>
+        ))}
       </div>
     </aside>
   );

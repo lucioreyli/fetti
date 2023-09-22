@@ -6,6 +6,8 @@ import {
   useState,
   type ChangeEventHandler,
 } from 'react';
+// @ts-expect-error
+import Loader from 'lucide-react/dist/esm/icons/loader';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import { type SubmitType, handleTestConnection } from './handle-submit';
@@ -13,9 +15,11 @@ import type { Connection } from '@/types';
 import { useToast } from '../ui/use-toast';
 import { useConnectionsStore } from '@/store/connections';
 import { Switch } from '../ui/switch';
+import { useRouter } from 'next/navigation';
 
 export const RegisterDatabase: FC = () => {
-  const [form, setForm] = useState<Partial<Connection>>({
+  const router = useRouter();
+  const [form, setForm] = useState<Omit<Connection, 'id'>>({
     host: 'localhost',
     port: 5432,
     username: '',
@@ -25,9 +29,10 @@ export const RegisterDatabase: FC = () => {
     sslRequired: false,
   });
   const { toast } = useToast();
-  const saveNewConnection = useConnectionsStore(
-    (state) => state.saveNewConnection,
+  const [saveNewConnection, setCurrentConnection] = useConnectionsStore(
+    (state) => [state.saveNewConnection, state.setConnection],
   );
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -49,7 +54,13 @@ export const RegisterDatabase: FC = () => {
       (connection.sslRequired as unknown as string) === 'on';
 
     if (submitEvent === 'test') {
-      const res = await handleTestConnection(connection);
+      setLoading(true);
+      await new Promise((res) => {
+        setTimeout(res, 2000);
+      });
+      const res = await handleTestConnection(connection).finally(() =>
+        setLoading(false),
+      );
       return toast({
         variant: res ? 'default' : 'destructive',
         title: res ? '✅ Success' : '❌ Login failed',
@@ -60,6 +71,17 @@ export const RegisterDatabase: FC = () => {
       return saveNewConnection(
         Object.assign(connection, { id: window.crypto.randomUUID() }),
       );
+    }
+
+    if (submitEvent === 'enter') {
+      setLoading(true);
+      const res = await handleTestConnection(connection).finally(() =>
+        setLoading(false),
+      );
+      if (!res)
+        return toast({ variant: 'destructive', title: '❌ Login failed' });
+      setCurrentConnection(connection);
+      return router.replace('/database');
     }
   };
 
@@ -182,8 +204,18 @@ export const RegisterDatabase: FC = () => {
           </div>
         </div>
         <div className="flex justify-between">
-          <Button variant="outline" type="submit" name="action" value="test">
-            Test Connection
+          <Button
+            disabled={loading}
+            variant="outline"
+            type="submit"
+            name="action"
+            value="test"
+          >
+            {loading ? (
+              <Loader className="w-4 h-4 animate-spin" />
+            ) : (
+              'Test Connection'
+            )}
           </Button>
           <div className="flex gap-2">
             <Button
@@ -194,8 +226,13 @@ export const RegisterDatabase: FC = () => {
             >
               Save
             </Button>
-            <Button type="submit" name="action" value="enter">
-              Enter
+            <Button
+              disabled={loading}
+              type="submit"
+              name="action"
+              value="enter"
+            >
+              {loading ? <Loader className="w-4 h-4 animate-spin" /> : 'Enter'}
             </Button>
           </div>
         </div>

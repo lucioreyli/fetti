@@ -3,17 +3,22 @@ import { persist } from 'zustand/middleware';
 import { create } from 'zustand';
 import type { Setter } from './types';
 
-type UseConnectionStore = {
+type UseConnectionsStore = {
   connections: Connection[];
   saveNewConnection: Setter<Connection>;
-  setConnections: (connections: Connection[]) => void;
+  setConnections: Setter<Connection[]>;
   deleteConnectionById: (id: string) => void;
   duplicateConnectionById: (id: string) => void;
+
+  connection: Connection | null;
+  setConnection: Setter<Connection>;
 };
 
-export const useConnectionsStore = create<UseConnectionStore>()(
+export const useConnectionsStore = create<UseConnectionsStore>()(
   persist(
     (set, get) => ({
+      connection: null,
+      setConnection: (con) => set({ connection: con }),
       connections: [],
       setConnections: (con) => set({ connections: con }),
       saveNewConnection: (con) =>
